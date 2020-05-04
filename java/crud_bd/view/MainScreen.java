@@ -5,12 +5,9 @@
  */
 package crud_bd.view;
 
-import crud_bd.classes.Car;
-import crud_bd.classes.Person;
-import crud_bd.dao.CarDAO;
-import crud_bd.dao.CascadeExclusionDAO;
-import crud_bd.dao.InnerJoinDAO;
-import crud_bd.dao.PersonDAO;
+import crud_bd.classes.*;
+import crud_bd.connectionBD.SingleConnection;
+import crud_bd.dao.*;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,6 +35,7 @@ public class MainScreen extends javax.swing.JFrame {
     public MainScreen() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         cadCarSetEnable(false, new Color(103,42,114));
     }
 
@@ -576,6 +574,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         try {
             pD.addPerson(p);
+            SingleConnection.closeConnection();
             JOptionPane.showMessageDialog(null, "Morador cadastrado com sucesso!");
             clearInput();
         } catch (SQLException e) {
@@ -633,6 +632,7 @@ public class MainScreen extends javax.swing.JFrame {
         
         try {
             list = new PersonDAO().returnAllPeople();
+            SingleConnection.closeConnection();
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, EXC_SQL);
@@ -654,6 +654,7 @@ public class MainScreen extends javax.swing.JFrame {
                 Car c = null;
                 try {
                     c = new CarDAO().carSearch(p.getId_person());
+                    SingleConnection.closeConnection();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, EXC_SQL);
@@ -755,6 +756,7 @@ public class MainScreen extends javax.swing.JFrame {
         if(cadCar){
             try {
                 cD.addCar(c);
+                SingleConnection.closeConnection();
                 JOptionPane.showMessageDialog(null, "Veículo cadastrado com sucesso!");
             } catch (SQLException e1) {
                 e1.printStackTrace();
@@ -763,6 +765,7 @@ public class MainScreen extends javax.swing.JFrame {
         } else {
             try {
                 cD.updateCar(c);
+                SingleConnection.closeConnection();
                 JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso!");
             } catch (SQLException e1) {
                 e1.printStackTrace();
@@ -809,6 +812,7 @@ public class MainScreen extends javax.swing.JFrame {
         if(resposta == JOptionPane.YES_OPTION){
             try {
                 cD.deleteCar(c.getId_car());
+                SingleConnection.closeConnection();
                 JOptionPane.showMessageDialog(null, "Veículo excluído com sucesso!");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -856,6 +860,7 @@ public class MainScreen extends javax.swing.JFrame {
             try{
                 CascadeExclusionDAO.cascadeExclusion(p.getId_person(), pD.getConnection());
                 JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso!");
+                SingleConnection.closeConnection();
             } catch(SQLException e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, EXC_SQL);

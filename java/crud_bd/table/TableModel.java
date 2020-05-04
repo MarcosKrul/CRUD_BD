@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author marco
  */
-public class TabelModel extends AbstractTableModel {
+public class TableModel extends AbstractTableModel {
 
     private List<Person> dados = new ArrayList<>();
     private String colunas[] = {"Nome", "E-mail", "Telefone", "Idade"};

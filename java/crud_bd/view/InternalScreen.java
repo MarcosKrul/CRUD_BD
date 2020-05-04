@@ -7,8 +7,9 @@ package crud_bd.view;
 
 import crud_bd.classes.AlphabeticalOrderPeople;
 import crud_bd.classes.Person;
+import crud_bd.connectionBD.SingleConnection;
 import crud_bd.dao.PersonDAO;
-import crud_bd.table.TabelModel;
+import crud_bd.table.TableModel;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -25,20 +26,22 @@ public class InternalScreen extends javax.swing.JInternalFrame {
      * Creates new form InternalScreen
      */
     private final PersonDAO pD = new PersonDAO();
-    private TabelModel modelo;
+    private TableModel modelo;
     private final String REGEX;
     private Person personControll;
     
     public InternalScreen(String regex) {
         initComponents();
+        setResizable(false);
         this.REGEX = regex;
-        modelo = new TabelModel();
+        modelo = new TableModel();
         alterar_tabela.setModel(modelo);
         alterar_btn_enviar.setEnabled(false);
         try {
             List<Person> list = pD.returnAllPeople();
             Collections.sort(list, new AlphabeticalOrderPeople());
             for(Person aux: list) modelo.addPerson(aux);
+            SingleConnection.closeConnection();
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Ocorreu algum erro no banco de dados");
@@ -238,7 +241,7 @@ public class InternalScreen extends javax.swing.JInternalFrame {
         personControll = modelo.getPersonIndex(index);
         alterar_in_nome.setText(personControll.getName());
         alterar_in_email.setText(personControll.getEmail().equals("null")? "" : personControll.getEmail());
-        alterar_in_telefone.setText(personControll.getPhoneNumber());
+        alterar_in_telefone.setText(personControll.getPhoneNumber().equals("null")? "" : personControll.getPhoneNumber());
         alterar_in_idade.setText(Integer.toString(personControll.getAge()));
     }//GEN-LAST:event_alterar_btn_alterarActionPerformed
 
@@ -287,8 +290,8 @@ public class InternalScreen extends javax.swing.JInternalFrame {
             try {
                 pD.updatePerson(p);
                 JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso!");
+                SingleConnection.closeConnection();
                 dispose();
-                clear();
             } catch (SQLException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Ocorreu algum erro no banco de dados");

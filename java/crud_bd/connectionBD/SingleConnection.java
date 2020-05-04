@@ -25,22 +25,26 @@ public class SingleConnection {
     }
 
     public static Connection getConnection() {
+        conectar();
         return connection;
+    }
+    
+    public static void closeConnection() throws SQLException {
+        if(connection != null){
+            connection.close();
+            connection = null;
+        }
     }
     
     private static void conectar() {
         
         try {
             if (connection == null) {
-                Class.forName("org.postgresql.Driver");
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
                 connection.setAutoCommit(false);
             }
-        } catch (ClassNotFoundException e1) {
+        } catch (SQLException e1) {
             e1.printStackTrace();
-            System.out.println("Erro forName");
-        } catch (SQLException e2) {
-            e2.printStackTrace();
             System.out.println("Erro sql");
         }
         
