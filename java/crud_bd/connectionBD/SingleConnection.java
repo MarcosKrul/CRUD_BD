@@ -7,6 +7,8 @@ package crud_bd.connectionBD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -34,6 +36,19 @@ public class SingleConnection {
             connection.close();
             connection = null;
         }
+    }
+    
+    public static void close (ResultSet rs) throws SQLException {
+        if(rs != null) rs.close();
+    }
+    
+    public static void close (PreparedStatement ps) throws SQLException {
+        if(ps != null) ps.close();
+    }
+    
+    public static void close (ResultSet rs, PreparedStatement ps) throws SQLException {
+        close(rs);
+        close(ps);
     }
     
     private static void conectar() {

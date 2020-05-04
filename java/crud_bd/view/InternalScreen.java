@@ -25,7 +25,7 @@ public class InternalScreen extends javax.swing.JInternalFrame {
     /**
      * Creates new form InternalScreen
      */
-    private final PersonDAO pD = new PersonDAO();
+    private PersonDAO pD;
     private TableModel modelo;
     private final String REGEX;
     private Person personControll;
@@ -38,6 +38,7 @@ public class InternalScreen extends javax.swing.JInternalFrame {
         alterar_tabela.setModel(modelo);
         alterar_btn_enviar.setEnabled(false);
         try {
+            pD = new PersonDAO();
             List<Person> list = pD.returnAllPeople();
             Collections.sort(list, new AlphabeticalOrderPeople());
             for(Person aux: list) modelo.addPerson(aux);
@@ -288,6 +289,7 @@ public class InternalScreen extends javax.swing.JInternalFrame {
                 "Confirmação de atualização", JOptionPane.YES_NO_OPTION);
         if(resposta == JOptionPane.YES_OPTION){
             try {
+                pD = new PersonDAO();
                 pD.updatePerson(p);
                 JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso!");
                 SingleConnection.closeConnection();

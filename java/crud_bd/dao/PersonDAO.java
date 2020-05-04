@@ -40,6 +40,7 @@ public class PersonDAO {
         ps.setInt(4, p.getAge());
         ps.execute();
         connection.commit();
+        SingleConnection.close(ps);
     
     }
     
@@ -49,6 +50,7 @@ public class PersonDAO {
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.execute();
         connection.commit();
+        SingleConnection.close(ps);
     
     }
     
@@ -66,9 +68,9 @@ public class PersonDAO {
             p.setEmail(resultado.getString("email"));
             p.setPhoneNumber(resultado.getString("phonenumber"));
             p.setAge(resultado.getInt("age"));
-            return p;
         }
-        
+
+        SingleConnection.close(resultado, ps);
         return p;
         
     }
@@ -91,6 +93,7 @@ public class PersonDAO {
             list.add(p);
         }
         
+        SingleConnection.close(resultado, ps);
         if(list.isEmpty()) return null;
         return list;
     
@@ -107,6 +110,7 @@ public class PersonDAO {
         ps.setInt(4, p.getAge());
         ps.execute();
         connection.commit();
+        SingleConnection.close(ps);
     
     }
 

@@ -41,6 +41,7 @@ public class CarDAO {
         ps.setInt(5, c.getId_foreign());
         ps.execute();
         connection.commit();
+        SingleConnection.close(ps);
 
     }
 
@@ -50,6 +51,7 @@ public class CarDAO {
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.execute();
         connection.commit();
+        SingleConnection.close(ps);
 
     }
 
@@ -68,9 +70,9 @@ public class CarDAO {
             c.setColor(resultado.getString("color"));
             c.setId_foreign(resultado.getInt("id_foreign"));
             c.setId_car(resultado.getInt("id_car"));
-            return c;
         }
-
+        
+        SingleConnection.close(resultado, ps);
         return c;
 
     }
@@ -95,6 +97,7 @@ public class CarDAO {
             list.add(c);
         }
 
+        SingleConnection.close(resultado, ps);
         if (list.isEmpty()) {
             return null;
         }
@@ -114,6 +117,7 @@ public class CarDAO {
         ps.setInt(5, c.getId_foreign());
         ps.execute();
         connection.commit();
+        SingleConnection.close(ps);
 
     }
 

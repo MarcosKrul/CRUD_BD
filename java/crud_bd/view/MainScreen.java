@@ -680,6 +680,12 @@ public class MainScreen extends javax.swing.JFrame {
                         Car alterar =  (Car) JOptionPane.showInputDialog(null, "Selecione o veículo desejado",
                                 "Alteração", JOptionPane.QUESTION_MESSAGE, null, outp, outp[0]);
                         
+                        if(alterar == null) {
+                            cadCarSetEnable(false, new Color(103,42,114));
+                            clearCadCar();
+                            return;
+                        }
+                        
                         cadCar_id_car = alterar.getId_car();
                         cadCar_in_cor.setText(alterar.getColor());
                         cadCar_in_modelo.setText(alterar.getModel());
